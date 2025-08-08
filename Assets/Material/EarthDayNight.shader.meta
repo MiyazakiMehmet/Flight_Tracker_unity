@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 0cc85d8ae6ed06643b8680bafd04f2fa
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _DayTex: {fileID: 2800000, guid: 7bcd99db47ba53e4db9bc753e9d666db, type: 3}
+  - _NightTex: {fileID: 2800000, guid: 18d35b7e35ab84840ae332bf79fcd759, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
