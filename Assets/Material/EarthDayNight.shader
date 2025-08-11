@@ -45,7 +45,7 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-                o.normalDir = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
+                o.normalDir = UnityObjectToWorldNormal(v.normal);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
@@ -58,7 +58,6 @@
 
                 float3 N = normalize(i.normalDir);
                 float3 L = normalize(_SunDir.xyz);
-                float3 V = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
 
                 //Angle between surface normal and sun direction to Calculate sun instensity
                 float lightIntensity = saturate(dot(normalize(i.normalDir), normalize(_SunDir.xyz)));

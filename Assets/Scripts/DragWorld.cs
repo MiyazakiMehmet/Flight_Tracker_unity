@@ -15,10 +15,10 @@ public class DragWorld : MonoBehaviour
     public bool invertY = true;
 
     [Header("Refs")]
-    public Transform yawNode;   // Root'un child'ý
-    public Transform pitchNode; // yawNode'un child'ý
-    public Transform earth;        // sphere mesh + collider
-    public Transform clouds;       // sphere mesh (biraz büyük)
+    public Transform yawNode;  
+    public Transform pitchNode; 
+    public Transform earth;       
+    public Transform clouds;       
     public Camera cam;
 
     float camDistance;
@@ -94,7 +94,6 @@ public class DragWorld : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit)) { 
 
-                // Earth veya Clouds’a týklanýrsa drag baþlasýn
                 if (hit.transform == earth || hit.transform.IsChildOf(earth) ||
                     hit.transform == clouds || hit.transform.IsChildOf(clouds))
                     dragging = true;

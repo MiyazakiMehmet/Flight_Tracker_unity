@@ -1,21 +1,26 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.LowLevel;
+
 
 public class SunDirectionUpdater : MonoBehaviour
 {
     public Light sun;
+    public Transform earth;           
+    public Transform clouds;
     public Material earthMaterial;
-    public Material cloudMaterial; // bulutlar için ekledik
+    public Material cloudMaterial;
 
-    void Update()
+    public bool worldFixedSun = true;    // sarý çizgide sabit mod
+    public Vector3 worldSunDir = new Vector3(1, 0, 0); // sarý çizginin yönü (dilediðin eksene ayarla)
+
+    void LateUpdate()
     {
-        // Directional Light’ýn baktýðý yön (eksi forward)
-        Vector3 sunDir = -sun.transform.forward;
-        sunDir.Normalize();
+        Vector3 Lws = worldFixedSun
+                    ? worldSunDir.normalized                  // Earth dönse de sabit
+                    : (-sun.transform.forward).normalized;    // Earth’le birlikte dönsün istiyorsan
 
-        // Hem Earth hem Clouds shader’ýna gönder
-        earthMaterial.SetVector("_SunDir", sunDir);
-        cloudMaterial.SetVector("_SunDir", sunDir);
+        Vector4 dir4 = new Vector4(Lws.x, Lws.y, Lws.z, 0);
+        earthMaterial.SetVector("_SunDir", dir4);
+        cloudMaterial.SetVector("_SunDir", dir4);
+
     }
 }
