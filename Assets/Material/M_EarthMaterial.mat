@@ -52,11 +52,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EmissionStrength: 3.8
+    - _EmissionStrength: 5
     - _MinNight: 0.3
     - _Opacity: 0.5
     m_Colors:
-    - _SunDir: {r: 0.4606896, g: 0.8833409, b: -0.08645266, a: 0}
+    - _SunDir: {r: 0.99622035, g: -0.022614447, b: -0.08386602, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

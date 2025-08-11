@@ -1,4 +1,4 @@
-Shader "Custom/EarthClouds"
+﻿Shader "Custom/EarthClouds"
 {
     Properties
     {
@@ -56,16 +56,28 @@ Shader "Custom/EarthClouds"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 c = tex2D(_CloudTex, i.uv);       // RGBA, A = bulut maskesi
-                float  NdotL = saturate(dot(normalize(i.normalWS), normalize(_SunDir.xyz)));
+                fixed4 c = tex2D(_CloudTex, i.uv);
+                float3 N = normalize(i.normalWS);
+                float3 L = normalize(_SunDir.xyz);
 
-                // G�nd�z parlak, gece �ok s�n�k olmas�n diye taban ayd�nl�k:
-                float lightFactor = lerp(_MinNight, 1.0, NdotL);
+                // 0..1 (1=gündüz)
+                float ndl = saturate(dot(N, L));
 
-                fixed3 rgb = c.rgb * _Tint.rgb * lightFactor;
-                float  a   = c.a   * _Opacity * _Tint.a;
+                // --- PARLAKLIK (gündüzü boostla, gece tabanı küçük tut) ---
+                // pow ile gündüzü öne çekersin; _MinNight gece tabanı.
+                float intensity = lerp(_MinNight, 1.0, pow(ndl, 0.6));
 
+                // --- OP AKLIK (gecede çok az, gündüzde yüksek) ---
+                // terminator yakınında yumuşak artış: 0.15 altı neredeyse yok, 0.6 üstü tam
+                float alphaCurve = smoothstep(0.15, 0.60, ndl);
+                float a = c.a * _Opacity * _Tint.a * alphaCurve;
+
+                // İsteğe bağlı: aşırı saydam bölgelerde tamamen kaybolmasın diye min clamp
+                // a = max(a, 0.02);
+
+                fixed3 rgb = c.rgb * _Tint.rgb * intensity;
                 return fixed4(rgb, a);
+
             }
             ENDCG
         }
