@@ -1,7 +1,10 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.UIElements;
 
 public class DragWorld : MonoBehaviour
 {
@@ -18,6 +21,15 @@ public class DragWorld : MonoBehaviour
     public Transform clouds;       // sphere mesh (biraz büyük)
     public Camera cam;
 
+    float camDistance;
+    Vector3 zoomTarget;
+
+    [Header("Zoom")]
+    public float minDistance = 2f;
+    public float maxDistance = 10f;
+    public float zoomSpeed = 0.02f;
+    public bool invertZoom = false;
+
     Transform self;
     bool dragging;
     Quaternion startRotation;
@@ -29,21 +41,58 @@ public class DragWorld : MonoBehaviour
     {
         self = transform;
 
+
         yawY = yawNode.eulerAngles.y;
         float x = pitchNode.localEulerAngles.x;
         pitchX = (x > 180f) ? x - 360f : x;
+
+        //Camera
+        // hedef merkez
+        zoomTarget = pitchNode ? pitchNode.position : earth.position;
+
+        // güvenli min mesafe hesabý (Earth/Clouds hangisi büyükse onu al)
+        float rEarth = GetApproxRadius(earth);
+        float rCloud = GetApproxRadius(clouds);
+        float targetRadius = Mathf.Max(rEarth, rCloud);
+
+        // near clip + küçük pay ekle
+        float safeMin = targetRadius + cam.nearClipPlane + 0.3f;
+        minDistance = Mathf.Max(minDistance, safeMin);
+
+        // baþlangýç uzaklýðýný güvenli aralýða sýkýþtýr
+        camDistance = Mathf.Clamp(Vector3.Distance(cam.transform.position, zoomTarget), minDistance, maxDistance);
     }
 
-    void Update()
+    private float GetApproxRadius(Transform clouds)
     {
+        if (!clouds) return 0.5f;
+        // Önce collider'a bak (en doðru)
+        if (clouds.TryGetComponent<SphereCollider>(out var sc))
+            return sc.radius * clouds.lossyScale.x; // uniform scale varsayýldý
+                                                    // Yoksa renderer bounds (yaklaþýk)
+        if (clouds.TryGetComponent<Renderer>(out var rend))
+            return rend.bounds.extents.magnitude; // yarý çap yerine yarý diyagonal; güvenli olsun
+        return 0.5f;
+    }
+
+        void Update()
+    {
+
+        MouseScroll();
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(PointerId.mousePointerId))
+            return;
+
+
         //Allowing to put world stable when we click ui elements(Button, Slider ...)
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit) && (hit.transform == self || hit.transform.IsChildOf(self))) {
+            if (Physics.Raycast(ray, out RaycastHit hit)) { 
 
                 // Earth veya Clouds’a týklanýrsa drag baþlasýn
                 if (hit.transform == earth || hit.transform.IsChildOf(earth) ||
@@ -82,5 +131,30 @@ public class DragWorld : MonoBehaviour
         // 3) Pitch'i bu eksende world'te uygula ve yaw'a ekle
         pitchNode.rotation = Quaternion.AngleAxis(pitchX, pitchAxisWorld) * yawRot;
 
+
     }
+    public void MouseScroll()
+    {
+        if (Mouse.current == null || cam == null) return;
+
+        float scrollY = Mouse.current.scroll.ReadValue().y;
+        if (Mathf.Abs(scrollY) < 0.01f) return;
+
+        //Refreshing per frame to get accurate pitch 
+        zoomTarget = pitchNode ? pitchNode.position : earth.position;
+
+        //Distance vector between camera and target
+        Vector3 v = cam.transform.position - zoomTarget;
+        //Magnitude of that vector
+        float d = v.magnitude;
+        Vector3 dir = v/d;
+
+        float sign = invertZoom ? -1f : 1f;
+        float newD = Mathf.Clamp(d - sign * scrollY * zoomSpeed, minDistance, maxDistance);
+
+        cam.transform.position = zoomTarget + dir * newD;
+        cam.transform.LookAt(zoomTarget, Vector3.up);
+    }
+
 }
+
