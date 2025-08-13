@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "flightNumber": "TK123",
+  "departureAirport": "IST",
+  "arrivalAirport": "LHR",
+  "departureTime": "2025-08-13T10:15:00Z",
+  "arrivalTime": "2025-08-13T13:25:00Z",
+  "lat": 41.2752,
+  "lon": 29.1053,
+  "heading": 252.0,
+  "speed": 720.0,
+  "estimatedArrival": "2025-08-13T13:25:00Z",
+  "remainingMinutes": 105,
+  "ts": 1723530000
+}

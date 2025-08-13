@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 610478041911087120}
   - component: {fileID: 2213967190419765178}
   - component: {fileID: 3978022731623487935}
+  - component: {fileID: -6114985430299151684}
+  - component: {fileID: 5669475786292027221}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Plain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,3 +111,30 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-6114985430299151684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089651941508420937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb45a30c3ffef4b953d2ab249ede58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5669475786292027221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089651941508420937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1449032ce3fc2f849a2684720744ad2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: C:\\Users\\Rick Grimes\\Flight_Tracker\\Assets\\JsonFiles\\FlightState.json
+  pollPeriod: 5
+  airplane: {fileID: -6114985430299151684}
