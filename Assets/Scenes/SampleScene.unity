@@ -804,24 +804,32 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+      propertyPath: airplaneRoot
+      value: 
+      objectReference: {fileID: 32762232}
+    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: noseReference
       value: 
       objectReference: {fileID: 32762232}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: modelNoseLocal.x
-      value: 0
+      value: -7.35
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: modelNoseLocal.y
-      value: 0
+      value: 2.91
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: modelNoseLocal.z
-      value: 0
+      value: -8.01
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: simulateMovement
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+      propertyPath: simulatedSpeedKph
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: modelNormalLocal.y
@@ -829,6 +837,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
       propertyPath: modelNormalLocal.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+      propertyPath: earthLatitudeOffsetDeg
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+      propertyPath: earthLongitudeOffsetDeg
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}

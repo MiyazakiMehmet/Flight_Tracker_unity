@@ -24,6 +24,8 @@ public class FlightDataGetter : MonoBehaviour
     }
 
 
+
+
     [SerializeField] string path = "C:\\Users\\Rick Grimes\\Flight_Tracker\\Assets\\JsonFiles\\FlightState.json";
     [SerializeField] float pollPeriod = 15f;
     
@@ -42,7 +44,7 @@ public class FlightDataGetter : MonoBehaviour
     {
         switch (code.ToUpperInvariant())
         {
-            case "LHR": lat = 51.4700f; lon = -0.4543f; return true; // London Heathrow
+            case "LHR": lat = 58.4700f; lon = -0.7543f; return true; // London Heathrow
             case "LGW": lat = 51.1537f; lon = -0.1821f; return true; // Gatwick
             case "STN": lat = 51.8850f; lon = 0.2350f; return true;  // Stansted
             case "LTN": lat = 51.8747f; lon = -0.3683f; return true; // Luton
@@ -53,9 +55,18 @@ public class FlightDataGetter : MonoBehaviour
             default: lat = lon = 0f; return false;
         }
     }
+
+
+
+    long _lastTs = -1;
+    float _lastLat, _lastLon;
+    const float MinDeltaDeg = 1e-4f; // ~11 m
+
+    string _lastArrivalCode = null;
+    bool _waypointSetForArrival = false;
+
     void PollOnce()
     {
-
         if (!File.Exists(path)) { Debug.LogWarning($"[Poller] Not found: {path}"); return; }
 
         string txt;
@@ -68,12 +79,59 @@ public class FlightDataGetter : MonoBehaviour
 
         if (st == null || !st.ok) { Debug.LogWarning("[Poller] ok=false or null"); return; }
 
-        // Konsola özet (isteğe bağlı)
+        // === de-dupe: aynı timestamp geldiyse atla ===
+        if (st.ts != 0 && st.ts == _lastTs) return;
+        if (st.ts == 0)
+        {
+            if (Mathf.Abs(st.lat - _lastLat) < MinDeltaDeg &&
+                Mathf.Abs(st.lon - _lastLon) < MinDeltaDeg)
+                return;
+        }
+
+        // Konsola özet
         Debug.Log($"[Poller] {st.flightNumber} {st.departureAirport}->{st.arrivalAirport}  HDG:{st.heading:F0}  SPD:{st.speed:F0}km/h");
 
-        // 🔴 Asıl nokta: PlainTrack’e ver
-        if (airplane != null) airplane.ApplyFlightState(st.lat, st.lon, st.heading, st.speed);
+        // Uçağa state gönder (PlainTrack ApplyFlightState)
+        if (airplane != null)
+            airplane.ApplyFlightState(st.lat, st.lon, st.heading, st.speed);
+
+        _lastTs = st.ts;
+        _lastLat = st.lat;
+        _lastLon = st.lon;
+
+        // === ARRIVAL’dan OTO WAYPOINT ===
+        // 0,0'a asla gitme + aynı hedefi tekrar tekrar kurma
+        if (airplane != null && !string.IsNullOrEmpty(st.arrivalAirport))
+        {
+            // Arrival code değiştiyse, yeni hedef kur
+            if (!_waypointSetForArrival || !string.Equals(_lastArrivalCode, st.arrivalAirport, System.StringComparison.OrdinalIgnoreCase))
+            {
+                if (TryGetAirportLatLon(st.arrivalAirport, out float alat, out float alon))
+                {
+                    // 0,0 guard
+                    if (Mathf.Abs(alat) > 1e-6f || Mathf.Abs(alon) > 1e-6f)
+                    {
+                        airplane.SetWaypoint(alat, alon);
+                        // canlı veri varken simülasyona gerek yok:
+                        airplane.simulateMovement = false;
+
+                        Debug.Log($"[Poller] Waypoint set from arrivalAirport {st.arrivalAirport}: lat={alat:F4}, lon={alon:F4}");
+                        _waypointSetForArrival = true;
+                        _lastArrivalCode = st.arrivalAirport;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[Poller] Arrival {st.arrivalAirport} resolved to (0,0). Waypoint ignored.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[Poller] Unknown arrival airport code '{st.arrivalAirport}'. Add it to TryGetAirportLatLon.");
+                }
+            }
+        }
     }
+
 
     [System.Serializable] class Wrapper { public FlightState w; }
 }
