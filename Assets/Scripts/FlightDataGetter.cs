@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
-using System.Globalization;
-
+using System.Collections.Generic;
 
 public class FlightDataGetter : MonoBehaviour
 {
@@ -23,47 +22,32 @@ public class FlightDataGetter : MonoBehaviour
         public long ts;
     }
 
-
-
+    [System.Serializable] class WrapperList { public FlightState[] flights; }
+    [System.Serializable] class WrapAnyArray { public FlightState[] w; } // düz dizi için
 
     [SerializeField] string path = "C:\\Users\\Rick Grimes\\Flight_Tracker\\Assets\\JsonFiles\\FlightState.json";
     [SerializeField] float pollPeriod = 15f;
-    
-    [Header("Receiver")]
-    public PlainTrack airplane;
+
+    [Header("Receiver (single-legacy)")]
+    public PlainTrack airplane; // tek uçak için hâlâ destekliyoruz (boş bırakılabilir)
+
+    public FlightState[] CurrentFlights { get; private set; } = System.Array.Empty<FlightState>();
+    public System.Action<FlightState[]> OnFlightsUpdated;
+
+    const float MinDeltaDeg = 1e-4f; // ~11 m
+
+    // her uçuş için son ts/lat/lon
+    readonly Dictionary<string, (long ts, float lat, float lon)> _seen = new();
 
     void Start()
     {
-        path = System.IO.Path.Combine(Application.persistentDataPath, path);
+        // Path zaten mutlaksa bozma
+        if (!Path.IsPathRooted(path))
+            path = System.IO.Path.Combine(Application.persistentDataPath, path);
+
         Debug.Log($"[Poller] Full path: {path}");
         InvokeRepeating(nameof(PollOnce), 0f, pollPeriod);
     }
-
-
-    static bool TryGetAirportLatLon(string code, out float lat, out float lon)
-    {
-        switch (code.ToUpperInvariant())
-        {
-            case "LHR": lat = 58.4700f; lon = -0.7543f; return true; // London Heathrow
-            case "LGW": lat = 51.1537f; lon = -0.1821f; return true; // Gatwick
-            case "STN": lat = 51.8850f; lon = 0.2350f; return true;  // Stansted
-            case "LTN": lat = 51.8747f; lon = -0.3683f; return true; // Luton
-            case "MAN": lat = 53.3650f; lon = -2.2725f; return true; // Manchester
-            case "EDI": lat = 55.9500f; lon = -3.3725f; return true; // Edinburgh
-            case "IST": lat = 41.2753f; lon = 28.7519f; return true; // İstanbul
-            // ihtiyaca göre ekle
-            default: lat = lon = 0f; return false;
-        }
-    }
-
-
-
-    long _lastTs = -1;
-    float _lastLat, _lastLon;
-    const float MinDeltaDeg = 1e-4f; // ~11 m
-
-    string _lastArrivalCode = null;
-    bool _waypointSetForArrival = false;
 
     public void PollOnce()
     {
@@ -73,65 +57,87 @@ public class FlightDataGetter : MonoBehaviour
         try { txt = File.ReadAllText(path); }
         catch (System.Exception e) { Debug.LogError($"[Poller] Read failed: {e.Message}"); return; }
 
-        FlightState st;
-        try { st = JsonUtility.FromJson<Wrapper>("{\"w\":" + txt + "}").w; }
-        catch (System.Exception e) { Debug.LogError($"[Poller] JSON parse error: {e.Message}"); return; }
+        FlightState[] flights = null;
 
-        //if (st == null || !st.ok) { Debug.LogWarning("[Poller] ok=false or null"); return; }
-
-        // === de-dupe: aynı timestamp geldiyse atla ===
-        if (st.ts != 0 && st.ts == _lastTs) return;
-        if (st.ts == 0)
+        // 1) wrapper: { "flights": [...] }
+        try
         {
-            if (Mathf.Abs(st.lat - _lastLat) < MinDeltaDeg &&
-                Mathf.Abs(st.lon - _lastLon) < MinDeltaDeg)
-                return;
+            var wrapped = JsonUtility.FromJson<WrapperList>(txt);
+            if (wrapped != null && wrapped.flights != null) flights = wrapped.flights;
+        }
+        catch { /* geç */ }
+
+        // 2) düz dizi: [ {...}, {...} ]  -> {"w":[...]} hilesi
+        if (flights == null)
+        {
+            try
+            {
+                var wrapped = JsonUtility.FromJson<WrapAnyArray>("{\"w\":" + txt + "}");
+                if (wrapped != null && wrapped.w != null) flights = wrapped.w;
+            }
+            catch { /* geç */ }
         }
 
-        // Konsola özet
-        Debug.Log($"[Poller] {st.flightNumber} {st.departureAirport}->{st.arrivalAirport}  HDG:{st.heading:F0}  SPD:{st.speed:F0}km/h");
-
-        // Uçağa state gönder (PlainTrack ApplyFlightState)
-        if (airplane != null)
-            airplane.ApplyFlightState(st.lat, st.lon, st.heading, st.speed);
-
-        _lastTs = st.ts;
-        _lastLat = st.lat;
-        _lastLon = st.lon;
-
-        // === ARRIVAL’dan OTO WAYPOINT ===
-        // 0,0'a asla gitme + aynı hedefi tekrar tekrar kurma
-        if (airplane != null && !string.IsNullOrEmpty(st.arrivalAirport))
+        // 3) tek obje (eski format) -> listeye sar
+        if (flights == null)
         {
-            // Arrival code değiştiyse, yeni hedef kur
-            if (!_waypointSetForArrival || !string.Equals(_lastArrivalCode, st.arrivalAirport, System.StringComparison.OrdinalIgnoreCase))
+            try
             {
-                if (TryGetAirportLatLon(st.arrivalAirport, out float alat, out float alon))
-                {
-                    // 0,0 guard
-                    if (Mathf.Abs(alat) > 1e-6f || Mathf.Abs(alon) > 1e-6f)
-                    {
-                        airplane.SetWaypoint(alat, alon);
-                        // canlı veri varken simülasyona gerek yok:
-                        airplane.simulateMovement = false;
+                var single = JsonUtility.FromJson<WrapAnyArray>("{\"w\":[" + txt + "]}");
+                if (single != null && single.w != null) flights = single.w;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[Poller] JSON parse error: {e.Message}");
+                return;
+            }
+        }
 
-                        Debug.Log($"[Poller] Waypoint set from arrivalAirport {st.arrivalAirport}: lat={alat:F4}, lon={alon:F4}");
-                        _waypointSetForArrival = true;
-                        _lastArrivalCode = st.arrivalAirport;
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[Poller] Arrival {st.arrivalAirport} resolved to (0,0). Waypoint ignored.");
-                    }
-                }
-                else
+        if (flights == null || flights.Length == 0)
+        {
+            Debug.LogWarning("[Poller] No flights found.");
+            return;
+        }
+
+        // de-dupe ve log
+        var list = new List<FlightState>(flights.Length);
+        foreach (var st in flights)
+        {
+            if (st == null || string.IsNullOrEmpty(st.flightNumber)) continue;
+
+            // uçuşa özel son kayıt
+            if (!_seen.TryGetValue(st.flightNumber, out var last))
+            {
+                list.Add(st);
+                _seen[st.flightNumber] = (st.ts, st.lat, st.lon);
+            }
+            else
+            {
+                bool sameTs = (st.ts != 0 && st.ts == last.ts);
+                bool tinyMove = (st.ts == 0 &&
+                    Mathf.Abs(st.lat - last.lat) < MinDeltaDeg &&
+                    Mathf.Abs(st.lon - last.lon) < MinDeltaDeg);
+
+                if (!sameTs && !tinyMove)
                 {
-                    Debug.LogWarning($"[Poller] Unknown arrival airport code '{st.arrivalAirport}'. Add it to TryGetAirportLatLon.");
+                    list.Add(st);
+                    _seen[st.flightNumber] = (st.ts, st.lat, st.lon);
                 }
             }
         }
+
+        if (list.Count == 0) return;
+
+        CurrentFlights = list.ToArray();
+
+        // Eski tek-uçak akışını bozmamak için: ilk uçuşu tek alıcıya gönder
+        if (airplane != null)
+        {
+            var st = CurrentFlights[0];
+            airplane.ApplyFlightState(st.lat, st.lon, st.heading, st.speed);
+        }
+
+        // Yayınla
+        OnFlightsUpdated?.Invoke(CurrentFlights);
     }
-
-
-    [System.Serializable] class Wrapper { public FlightState w; }
 }

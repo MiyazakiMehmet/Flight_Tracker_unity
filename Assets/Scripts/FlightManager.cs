@@ -1,73 +1,86 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+ï»¿using UnityEngine;
+using System.Collections.Generic;
 
 public class FlightManager : MonoBehaviour
 {
-    public Transform worldParent;      // World
-    public Transform earth;            // World
-    public GameObject airplanePrefab;
-    public FlightDataGetter dataGetter;
-    public bool autoSpawnIfMissing = true;
+    [Header("Scene/Hierarchy")]
+    public Transform worldParent; // World
+    public Transform earth;       // World
 
-    private PlainTrack _plane;
+    [Header("Prefabs")]
+    public GameObject airplanePrefab;
+
+    [Header("Data")]
+    public FlightDataGetter dataGetter;
+
+    // flightNumber -> PlainTrack
+    private readonly Dictionary<string, PlainTrack> _planes = new();
 
     void Start()
     {
         if (dataGetter == null) { Debug.LogError("[FM] dataGetter yok."); return; }
-        if (worldParent == null) { Debug.LogError("[FM] worldParent (World) atanmamýþ."); return; }
+        if (worldParent == null) { Debug.LogError("[FM] worldParent (World) atanmamÄ±ÅŸ."); return; }
         if (earth == null) earth = worldParent;
+        if (airplanePrefab == null) { Debug.LogError("[FM] airplanePrefab yok."); return; }
 
-        // Zaten atanmýþ uçak varsa onu sahneye/parent'a zorla yerleþtir
-        if (dataGetter.airplane != null)
-        {
-            _plane = dataGetter.airplane;
-            ForceAttachToWorld(_plane.gameObject);
-            FinalizePlane(_plane);
-            Debug.Log("[FM] Var olan uçaðý baðladým ve World altýna aldým.");
-            return;
-        }
-
-        // Gerekirse yeni spawn et
-        if (autoSpawnIfMissing)
-        {
-            if (airplanePrefab == null) { Debug.LogError("[FM] airplanePrefab yok."); return; }
-
-            // 1) Instantiate parent ile
-            GameObject go = Instantiate(airplanePrefab, worldParent, false);
-
-            // 2) Her ihtimale karþý tekrar parent’la (baþka script müdahelesine karþý)
-            go.transform.SetParent(worldParent, false);
-
-            // 3) DDOL’a taþýndýysa ana sahneye geri getir
-            ForceAttachToWorld(go);
-
-            _plane = go.GetComponent<PlainTrack>();
-            if (_plane == null) { Debug.LogError("[FM] Prefab’ta PlainTrack yok!"); return; }
-
-            FinalizePlane(_plane);
-            dataGetter.airplane = _plane;
-
-            Debug.Log($"[FM] Spawn OK -> parent: {go.transform.parent?.name}, scene: {go.scene.name}");
-        }
-        else
-        {
-            Debug.LogWarning("[FM] autoSpawnIfMissing=false ve dataGetter.airplane yok.");
-        }
+        dataGetter.OnFlightsUpdated += OnFlightsUpdated;
     }
 
-    void FinalizePlane(PlainTrack pt)
+    void OnDestroy()
     {
-        if (pt.earth == null) pt.earth = earth; // World
+        if (dataGetter != null) dataGetter.OnFlightsUpdated -= OnFlightsUpdated;
     }
 
-    void ForceAttachToWorld(GameObject go)
+    void OnFlightsUpdated(FlightDataGetter.FlightState[] flights)
     {
-        // DDOL sahnesindeyse ana sahneye geri taþý
-        if (go.scene.name == "DontDestroyOnLoad")
+        foreach (var st in flights)
         {
-            SceneManager.MoveGameObjectToScene(go, gameObject.scene);
+            if (st == null || string.IsNullOrEmpty(st.flightNumber)) continue;
+
+            // UÃ§ak var mÄ±?
+            if (!_planes.TryGetValue(st.flightNumber, out var pt) || pt == null)
+            {
+                // Spawn
+                var go = Instantiate(airplanePrefab, worldParent, false);
+                pt = go.GetComponent<PlainTrack>();
+                if (pt == null) { Debug.LogError("[FM] Prefabâ€™ta PlainTrack yok!"); Destroy(go); continue; }
+                if (pt.earth == null) pt.earth = earth;
+
+                _planes[st.flightNumber] = pt;
+                // Ä°simde flight no gÃ¶rmek istersen:
+                go.name = $"Plane_{st.flightNumber}";
+            }
+
+            // GÃ¼ncelle
+            pt.ApplyFlightState(st.lat, st.lon, st.heading, st.speed);
+
+            // (Opsiyonel) VarÄ±ÅŸa waypoint
+            if (!string.IsNullOrEmpty(st.arrivalAirport) &&
+                TryGetAirportLatLon(st.arrivalAirport, out float alat, out float alon) &&
+                (Mathf.Abs(alat) > 1e-6f || Mathf.Abs(alon) > 1e-6f))
+            {
+                pt.SetWaypoint(alat, alon);
+            }
         }
-        // Son kez parent’ý garanti et
-        go.transform.SetParent(worldParent, false);
+
+        // (Opsiyonel) listede artÄ±k gelmeyen uÃ§aklarÄ± gizlemek/silmek istersen burada yÃ¶netebilirsin.
+    }
+
+    // KÄ±sa bir havalimanÄ± sÃ¶zlÃ¼ÄŸÃ¼ (gerekirse geniÅŸlet)
+    static bool TryGetAirportLatLon(string code, out float lat, out float lon)
+    {
+        switch (code.ToUpperInvariant())
+        {
+            case "LHR": lat = 51.4700f; lon = -0.4543f; return true;
+            case "LGW": lat = 51.1537f; lon = -0.1821f; return true;
+            case "STN": lat = 51.8850f; lon = 0.2350f; return true;
+            case "LTN": lat = 51.8747f; lon = -0.3683f; return true;
+            case "MAN": lat = 53.3650f; lon = -2.2725f; return true;
+            case "EDI": lat = 55.9500f; lon = -3.3725f; return true;
+            case "IST": lat = 41.2753f; lon = 28.7519f; return true;
+            case "FRA": lat = 50.0379f; lon = 8.5622f; return true;
+            case "LAX": lat = 33.9416f; lon = -118.4085f; return true;
+            default: lat = lon = 0f; return false;
+        }
     }
 }
