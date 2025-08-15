@@ -782,71 +782,136 @@ Transform:
   m_Children:
   - {fileID: 179469093}
   - {fileID: 392628864}
-  - {fileID: 1337808510}
   m_Father: {fileID: 845922827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1337808510 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-  m_PrefabInstance: {fileID: 5538550217143496536}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5538550217143496536
-PrefabInstance:
+--- !u!1 &1195287546
+GameObject:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1195287547}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1195287547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195287546}
   serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1056713470}
-    m_Modifications:
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -6.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 50.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5439023
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.6842694
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.33015665
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.3562897
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 30.603
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 259.662
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 257.224
-      objectReference: {fileID: 0}
-    - target: {fileID: 5089651941508420937, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_Name
-      value: Plane
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1620025638}
+  - {fileID: 1477215904}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1477215903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1477215904}
+  - component: {fileID: 1477215905}
+  m_Layer: 0
+  m_Name: FlightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1477215904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477215903}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1195287547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1477215905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477215903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc725cc56abd184a84aed8be15a3094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldParent: {fileID: 179469093}
+  earth: {fileID: 179469093}
+  airplanePrefab: {fileID: 5089651941508420937, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+  dataGetter: {fileID: 1620025637}
+--- !u!1 &1620025636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620025638}
+  - component: {fileID: 1620025637}
+  m_Layer: 0
+  m_Name: FlightDataGetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1620025637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620025636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1449032ce3fc2f849a2684720744ad2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: C:\Users\Rick Grimes\Flight_Tracker\Assets\JsonFiles\FlightState.json
+  pollPeriod: 5
+  airplane: {fileID: 1182058007545758767, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+--- !u!4 &1620025638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620025636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1195287547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -855,3 +920,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 350671424}
+  - {fileID: 1195287547}

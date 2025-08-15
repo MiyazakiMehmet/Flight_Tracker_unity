@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3855515585014681922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8362877732169429845}
+  m_Layer: 0
+  m_Name: AirplaneRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8362877732169429845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3855515585014681922}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.63571507, y: -0.5955434, z: -0.3165878, w: -0.37545514}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.23758115, y: 226.926, z: 157.82057}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2925988869756625915}
+  m_LocalEulerAnglesHint: {x: 5.755, y: -958.652, z: 90.502}
 --- !u!1 &5089651941508420937
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,8 +43,9 @@ GameObject:
   - component: {fileID: 610478041911087120}
   - component: {fileID: 2213967190419765178}
   - component: {fileID: 3978022731623487935}
+  - component: {fileID: 1182058007545758767}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Plain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,13 +59,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5089651941508420937}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6842694, y: -0.33015665, z: -0.3562897, w: 0.5439023}
-  m_LocalPosition: {x: -8, y: -6.9, z: 50.2}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalRotation: {x: 0, y: 0.9218631, z: -0, w: 0.3875159}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.006, y: 0.006, z: 0.006}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8362877732169429845}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30.603, y: 259.662, z: 257.224}
+  m_LocalEulerAnglesHint: {x: 0, y: 494.4, z: 360}
 --- !u!33 &610478041911087120
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,3 +142,40 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1182058007545758767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089651941508420937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb45a30c3ffef4b953d2ab249ede58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  earth: {fileID: 0}
+  earthLocalRadius: 0.5
+  iconLocalOffset: 0.002
+  posLerp: 10
+  rotLerp: 8
+  modelNoseLocal: {x: 0, y: 0, z: 1}
+  modelNormalLocal: {x: 0, y: 1, z: 0}
+  headingZeroAtEast: 0
+  headingCounterClockwise: 0
+  headingAdd180: 0
+  headingOffsetDeg: 0
+  inputSpeedUnit: 0
+  simulateMovement: 0
+  earthWorldRadiusKm: 6371
+  timeCompression: 60
+  airplaneRoot: {fileID: 8362877732169429845}
+  useWaypoint: 0
+  waypointLatDeg: 0
+  waypointLonDeg: 0
+  arriveEpsilonDeg: 0.1
+  ignoreExternalPosWhileMoving: 1
+  maxStepDegPerFrame: 0.7
+  northAtPositiveY: 1
+  earthLatitudeOffsetDeg: 0
+  earthLongitudeOffsetDeg: 0
