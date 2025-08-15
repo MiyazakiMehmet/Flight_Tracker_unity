@@ -119,37 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &32762231
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 32762232}
-  m_Layer: 0
-  m_Name: AirplaneRoot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &32762232
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32762231}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9231516, z: -0, w: 0.38443598}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5000005, y: 2.5000005, z: 2.4999993}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1800649157}
-  m_LocalEulerAnglesHint: {x: 0, y: -134.783, z: 0}
 --- !u!1 &179469089
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +224,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1800649157}
+  m_Children: []
   m_Father: {fileID: 1056713470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
@@ -783,142 +751,6 @@ Transform:
   - {fileID: 1056713470}
   m_Father: {fileID: 350671424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1046900897
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 179469093}
-    m_Modifications:
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: earth
-      value: 
-      objectReference: {fileID: 179469093}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: unitsPerKm
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: earthRadius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: airplaneRoot
-      value: 
-      objectReference: {fileID: 32762232}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: noseReference
-      value: 
-      objectReference: {fileID: 32762232}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: modelNoseLocal.x
-      value: -7.35
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: modelNoseLocal.y
-      value: 2.91
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: modelNoseLocal.z
-      value: -8.01
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: simulateMovement
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: simulatedSpeedKph
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: modelNormalLocal.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: modelNormalLocal.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: earthLatitudeOffsetDeg
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: earthLongitudeOffsetDeg
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.0039999993
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.0039999993
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.0040000007
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9887893
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.14931788
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5089651941508420937, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: m_Name
-      value: Plain
-      objectReference: {fileID: 0}
-    - target: {fileID: 5669475786292027221, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: jsonPath
-      value: C:/Users/Rick Grimes/Flight_Tracker/Assets/JsonFiles/FlightState.json
-      objectReference: {fileID: 0}
-    - target: {fileID: 5669475786292027221, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      propertyPath: pollPeriod
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 32762232}
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
 --- !u!1 &1056713469
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,11 +784,135 @@ Transform:
   - {fileID: 392628864}
   m_Father: {fileID: 845922827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1800649157 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2925988869756625915, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
-  m_PrefabInstance: {fileID: 1046900897}
+--- !u!1 &1195287546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1195287547}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1195287547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195287546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1620025638}
+  - {fileID: 1477215904}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1477215903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1477215904}
+  - component: {fileID: 1477215905}
+  m_Layer: 0
+  m_Name: FlightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1477215904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477215903}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1195287547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1477215905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477215903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc725cc56abd184a84aed8be15a3094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldParent: {fileID: 179469093}
+  earth: {fileID: 179469093}
+  airplanePrefab: {fileID: 5089651941508420937, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+  dataGetter: {fileID: 1620025637}
+  autoSpawnIfMissing: 1
+--- !u!1 &1620025636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620025638}
+  - component: {fileID: 1620025637}
+  m_Layer: 0
+  m_Name: FlightDataGetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1620025637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620025636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1449032ce3fc2f849a2684720744ad2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: C:\Users\Rick Grimes\Flight_Tracker\Assets\JsonFiles\FlightState.json
+  pollPeriod: 5
+  airplane: {fileID: -6114985430299151684, guid: ed371fc4cf1d0184eae008c16906f539, type: 3}
+--- !u!4 &1620025638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620025636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1195287547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -965,3 +921,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 350671424}
+  - {fileID: 1195287547}

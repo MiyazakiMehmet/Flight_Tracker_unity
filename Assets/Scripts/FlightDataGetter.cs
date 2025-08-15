@@ -65,7 +65,7 @@ public class FlightDataGetter : MonoBehaviour
     string _lastArrivalCode = null;
     bool _waypointSetForArrival = false;
 
-    void PollOnce()
+    public void PollOnce()
     {
         if (!File.Exists(path)) { Debug.LogWarning($"[Poller] Not found: {path}"); return; }
 
@@ -77,7 +77,7 @@ public class FlightDataGetter : MonoBehaviour
         try { st = JsonUtility.FromJson<Wrapper>("{\"w\":" + txt + "}").w; }
         catch (System.Exception e) { Debug.LogError($"[Poller] JSON parse error: {e.Message}"); return; }
 
-        if (st == null || !st.ok) { Debug.LogWarning("[Poller] ok=false or null"); return; }
+        //if (st == null || !st.ok) { Debug.LogWarning("[Poller] ok=false or null"); return; }
 
         // === de-dupe: aynı timestamp geldiyse atla ===
         if (st.ts != 0 && st.ts == _lastTs) return;
